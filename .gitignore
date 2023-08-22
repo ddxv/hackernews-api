@@ -1,5 +1,8 @@
 *.csv
 config.yml
+db/
+db/*
+
 store-data/
 
 .virtualenv/

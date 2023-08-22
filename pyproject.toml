@@ -3,7 +3,7 @@ authors = [{ name = "James O'Claire" }]
 name = "hackernews-scraper"
 description = "Crawl latest hackernews and store for more convenient api calling"
 version = "0.1.2"
-dependencies = ["litestar[standard]"]
+dependencies = ["litestar[standard]", "pydantic", "pandas", "requests"]
 
 [project.optional-dependencies]
 dev = ["pre-commit", "bump2version"]
