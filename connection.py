@@ -61,6 +61,38 @@ def upsert_df(
         conn.execute(sql_query)
 
 
+def query_article(article_id: int) -> pd.DataFrame:
+    query_str = f""" SELECT * 
+        FROM articles
+        WHERE id = {article_id} 
+        ;
+        """
+    # Connect to the SQLite database
+    with sqlite3.connect(DATABASE_PATH) as conn:
+        # Use pandas to run the SQL query and return results as a DataFrame
+        df = pd.read_sql_query(query_str, conn)
+    return df
+
+
+def query_type(type: str, page_number: int, items_per_page: int) -> pd.DataFrame:
+    offset = (page_number - 1) * items_per_page
+    query_str = f""" SELECT * 
+        FROM articles
+        WHERE id IN (
+            SELECT id
+            FROM {type}
+            ORDER BY crawled_at DESC
+            LIMIT {items_per_page} OFFSET {offset}
+            )
+            ;
+        """
+    # Connect to the SQLite database
+    with sqlite3.connect(DATABASE_PATH) as conn:
+        # Use pandas to run the SQL query and return results as a DataFrame
+        df = pd.read_sql_query(query_str, conn)
+    return df
+
+
 DATABASE_PATH = "db/hackernews.db"
 SETUP_SQL_PATH = "create_db.sql"
 
