@@ -1,4 +1,5 @@
 import os
+import pathlib
 import sqlite3
 import uuid
 
@@ -93,8 +94,9 @@ def query_type(type: str, page_number: int, items_per_page: int) -> pd.DataFrame
     return df
 
 
-DATABASE_PATH = "db/hackernews.db"
-SETUP_SQL_PATH = "create_db.sql"
+MODULE_DIR = pathlib.Path(__file__).resolve().parent
+DATABASE_PATH = f"{MODULE_DIR}/db/hackernews.db"
+SETUP_SQL_PATH = f"{MODULE_DIR}/create_db.sql"
 
 
 if not os.path.exists(DATABASE_PATH):
