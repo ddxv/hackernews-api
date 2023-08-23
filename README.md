@@ -122,7 +122,13 @@ sudo systemctl restart nginx.service
 - `sudo systemctl start hackernews-api.socket` star
 - `sudo systemctl status hackernews-api` to check status
 
-Troubleshooting, you might want to try:
+## Troubleshooting
 
+Checking your local API docs:
+
+`http://127.0.0.1:8000/schema/redoc`
+
+Restarting Unit service
 - `sudo systemctl stop hackernews-api`
 - `sudo systemctl start hackernews-api`
+
