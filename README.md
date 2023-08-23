@@ -130,7 +130,7 @@ try visiting example.com/api/articles/list/top
 
 Checking your local API docs:
 
-`http://127.0.0.1:8000/schema/redoc`
+`http://127.0.0.1:8000/api/docs`
 
 Restarting Unit service
 - `sudo systemctl stop hackernews-api`
