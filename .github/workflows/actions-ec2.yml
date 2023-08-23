@@ -29,3 +29,4 @@ jobs:
             cd $TARGETDIR
             pwd
             git pull origin main
+            sudo systemctl restart hackernews-api
