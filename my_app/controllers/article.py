@@ -11,7 +11,7 @@ from my_app.models import Article, Articles
 
 
 class ArticleController(Controller):
-    path = "/articles"
+    path = "/api/articles"
 
     @get(path="/{article_id:int}")
     async def get_article(self, article_id: int) -> Article:
@@ -20,7 +20,7 @@ class ArticleController(Controller):
         mydict: Article = df.set_index("id").to_dict(orient="index")
         return mydict
 
-    @get(path="/list/{type:str}")
+    @get(path="/api/list/{type:str}")
     async def get_article_list(
         self, type: str, page: int = 1, items_per_page: int = 50
     ) -> Articles:
