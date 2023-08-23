@@ -5,7 +5,7 @@ import os
 import pandas as pd
 import requests
 
-from connection import connection, upsert_df
+from my_app.db.connection import connection, upsert_df
 
 BASE_URL = "https://hacker-news.firebaseio.com/v0/"
 STORY_TYPES = ["top", "best", "new"]

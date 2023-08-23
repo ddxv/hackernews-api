@@ -1,6 +1,6 @@
 from litestar import Controller, get
 
-from connection import query_article, query_type
+from my_app.db.connection import query_article, query_type
 from my_app.models import Article, Articles
 
 """

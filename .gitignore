@@ -1,7 +1,6 @@
 *.csv
 config.yml
-db/
-db/*
+*.db
 .vscode
 
 store-data/
