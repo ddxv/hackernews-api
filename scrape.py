@@ -4,6 +4,7 @@ import os
 
 import pandas as pd
 import requests
+import tldextract
 
 from my_app.db.connection import connection, upsert_df
 
@@ -49,9 +50,13 @@ def manage_cli_args() -> argparse.Namespace:
     return args
 
 
-def get_article(id: str) -> dict:
+def get_article(id: int) -> dict:
     response = requests.get(BASE_URL + f"item/{id}.json")
     article: dict = response.json()
+    if "url" not in article.keys():
+        article["url"] = f"https://news.ycombinator.com/item?id={id}"
+    ext = tldextract.extract(article["url"])
+    article["domain"] = ".".join(part for part in ext if part)
     return article
 
 

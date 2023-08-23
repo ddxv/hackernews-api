@@ -13,9 +13,10 @@ dead BOOLEAN DEFAULT FALSE,
 parent INTEGER REFERENCES articles(id), -- Self-referencing foreign key for parent comments/stories
 poll INTEGER REFERENCES articles(id), -- Self-referencing foreign key for associated poll
 url TEXT,
+domain TEXT,
 score INTEGER,
 title TEXT, -- Storing HTML content
-descendants INTEGER,
+descendants INTEGER, -- in the case of stories or polls the comment count
 crawled_at DATETIME
 );
 
