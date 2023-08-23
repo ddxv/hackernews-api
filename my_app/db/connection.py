@@ -94,9 +94,9 @@ def query_type(type: str, page_number: int, items_per_page: int) -> pd.DataFrame
     return df
 
 
-MODULE_DIR = pathlib.Path(__file__).resolve().parent.parent
-DATABASE_PATH = f"{MODULE_DIR}/my_app/db/data/hackernews.db"
-SETUP_SQL_PATH = f"{MODULE_DIR}/my_app/db/create_db.sql"
+DB_DIR = pathlib.Path(__file__).resolve().parent
+DATABASE_PATH = f"{DB_DIR}/data/hackernews.db"
+SETUP_SQL_PATH = f"{DB_DIR}/create_db.sql"
 
 
 if not os.path.exists(DATABASE_PATH):
