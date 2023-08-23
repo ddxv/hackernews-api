@@ -17,10 +17,10 @@ jobs:
       - name: Deploy to my EC2
         uses: appleboy/ssh-action@master
         env:
-          TARGETDIR: ${{ secrets.TARGET_DIR }}
+          TARGETDIR: ${{ vars.TARGET_DIR }}
         with:
           host: ${{ secrets.HOST_DNS }}
-          username: ${{ secrets.USERNAME }}
+          username: ${{ vars.USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           envs: TARGETDIR
