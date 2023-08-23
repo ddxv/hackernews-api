@@ -95,7 +95,7 @@ def query_type(type: str, page_number: int, items_per_page: int) -> pd.DataFrame
 
 
 DB_DIR = pathlib.Path(__file__).resolve().parent
-DATABASE_PATH = f"{DB_DIR}/data/hackernews.db"
+DATABASE_PATH = f"{DB_DIR}/data.db"
 SETUP_SQL_PATH = f"{DB_DIR}/create_db.sql"
 
 
