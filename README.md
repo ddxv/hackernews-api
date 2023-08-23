@@ -122,6 +122,10 @@ sudo systemctl restart nginx.service
 - `sudo systemctl start hackernews-api.socket` star
 - `sudo systemctl status hackernews-api` to check status
 
+## Check your API endpoints
+
+try visiting example.com/api/articles/list/top
+
 ## Troubleshooting
 
 Checking your local API docs:
