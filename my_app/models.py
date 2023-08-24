@@ -4,6 +4,7 @@ from dataclasses import dataclass
 @dataclass
 class Article:
     id: int
+    rank: int
     deleted: int | None  # Using Optional since it can be missing
     type: str
     by: str

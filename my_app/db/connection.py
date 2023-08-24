@@ -77,15 +77,13 @@ def query_article(article_id: int) -> pd.DataFrame:
 
 def query_type(type: str, page_number: int, items_per_page: int) -> pd.DataFrame:
     offset = (page_number - 1) * items_per_page
-    query_str = f""" SELECT * 
-        FROM articles
-        WHERE id IN (
-            SELECT id
-            FROM {type}
-            ORDER BY crawled_at DESC
-            LIMIT {items_per_page} OFFSET {offset}
-            )
-            ;
+    query_str = f"""SELECT top.RANK, articles.*
+        FROM top
+        LEFT JOIN articles
+            USING (id)
+        ORDER BY top.rank DESC 
+        LIMIT {items_per_page} OFFSET {offset}
+        ;
         """
     # Connect to the SQLite database
     with sqlite3.connect(DATABASE_PATH) as conn:
