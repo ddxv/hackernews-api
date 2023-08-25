@@ -81,7 +81,7 @@ def query_type(type: str, page_number: int, items_per_page: int) -> pd.DataFrame
         FROM {type}
         LEFT JOIN articles
             USING (id)
-        ORDER BY top.rank ASC 
+        ORDER BY {type}.rank ASC 
         LIMIT {items_per_page} OFFSET {offset}
         ;
         """
