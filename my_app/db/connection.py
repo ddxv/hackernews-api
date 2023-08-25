@@ -77,8 +77,8 @@ def query_article(article_id: int) -> pd.DataFrame:
 
 def query_type(type: str, page_number: int, items_per_page: int) -> pd.DataFrame:
     offset = (page_number - 1) * items_per_page
-    query_str = f"""SELECT top.RANK, articles.*
-        FROM top
+    query_str = f"""SELECT {type}.RANK, articles.*
+        FROM {type}
         LEFT JOIN articles
             USING (id)
         ORDER BY top.rank ASC 
