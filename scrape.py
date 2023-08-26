@@ -107,7 +107,7 @@ def main(args: argparse.Namespace) -> None:
             table_name=my_type,
             database_connection=connection,
             key_column="rank",
-            insert_columns=["rank", "id"],
+            insert_columns=["rank", "id", "crawled_at"],
         )
 
 
