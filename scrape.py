@@ -6,7 +6,7 @@ import pandas as pd
 import requests
 import tldextract
 
-from my_app.db.connection import connection, delete_and_insert, upsert_df
+from my_app.db.connection import connection, delete_and_insert
 
 BASE_URL = "https://hacker-news.firebaseio.com/v0/"
 STORY_TYPES = ["top", "best", "new"]
@@ -93,12 +93,12 @@ def main(args: argparse.Namespace) -> None:
         type_df = articles_df[["rank", "id", "crawled_at"]].copy()
         articles_df = articles_df.drop(["kids", "rank"], axis=1)
         # Upsert the Articles which are the primary key first
-        upsert_df(
+        delete_and_insert(
             df=articles_df,
             table_name="articles",
             database_connection=connection,
-            key_columns=["id"],
-            insert_columns=articles_df.columns.tolist(),
+            key_column="id",
+            insert_columns=[x for x in articles_df.columns.tolist() if x not in ["id"]],
         )
 
         # Delete and Insert based on ranks the lists they belong to here

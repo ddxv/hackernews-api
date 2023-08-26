@@ -91,20 +91,15 @@ def upsert_df(
 
     all_columns = list(set(key_columns + insert_columns))
 
-    insert_col_list = ", ".join([f'"{col_name}"' for col_name in all_columns])
+    insert_col_list = ", ".join([f"{col_name}" for col_name in all_columns])
 
     temp_table = f"temp_{uuid.uuid4().hex[:6]}"
-    sql_query = f"""INSERT OR IGNORE INTO {table_spec} ({insert_col_list})
-                SELECT {insert_col_list} FROM {temp_table}
-                ;
-                """
+    sql_query = f"""REPLACE INTO {table_spec} ({insert_col_list})
+                    (SELECT {insert_col_list} FROM {temp_table});
+                    ;
+                    """
 
     with database_connection as conn:
-        conn.execute(f"DROP TABLE IF EXISTS {temp_table}")
-        conn.execute(
-            f"""CREATE TEMPORARY TABLE {temp_table} 
-            AS SELECT * FROM {table_spec} WHERE false"""
-        )
         df[all_columns].to_sql(
             temp_table,
             con=conn,
@@ -112,7 +107,6 @@ def upsert_df(
             index=False,
         )
         conn.execute(sql_query)
-        conn.execute(f"DROP TABLE IF EXISTS {temp_table}")
 
 
 def query_article(article_id: int) -> pd.DataFrame:
