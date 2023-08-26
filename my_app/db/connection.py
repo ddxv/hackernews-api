@@ -147,7 +147,7 @@ def query_type(type: str, page_number: int, items_per_page: int) -> pd.DataFrame
 
 DB_DIR = pathlib.Path(__file__).resolve().parent
 DATABASE_PATH = f"{DB_DIR}/data.db"
-SETUP_SQL_PATH = f"{DB_DIR}/create_db.sql"
+SETUP_SQL_PATH = f"{DB_DIR}/create_db.sqlite3"
 
 
 if not os.path.exists(DATABASE_PATH):
