@@ -6,7 +6,7 @@ import pandas as pd
 import requests
 import tldextract
 
-from my_app.db.connection import connection, upsert_df
+from my_app.db.connection import connection, delete_and_insert, upsert_df
 
 BASE_URL = "https://hacker-news.firebaseio.com/v0/"
 STORY_TYPES = ["top", "best", "new"]
@@ -61,7 +61,7 @@ def get_article(id: int) -> dict:
 
 
 def get_articles(my_type: str, max_count: int) -> list:
-    response = requests.get(BASE_URL + f"{my_type}stories.json")
+    response = requests.get(BASE_URL + f"{my_type}stories.json", timeout=5)
     # Careful, these are in an ordered list!
     article_ids = response.json()
     articles = list()
@@ -92,7 +92,7 @@ def main(args: argparse.Namespace) -> None:
         # comments_df = articles_df[["id", "kids", "crawled_at"]].copy()
         type_df = articles_df[["rank", "id", "crawled_at"]].copy()
         articles_df = articles_df.drop(["kids", "rank"], axis=1)
-        # Upset the Articles which are the primary key first
+        # Upsert the Articles which are the primary key first
         upsert_df(
             df=articles_df,
             table_name="articles",
@@ -101,12 +101,12 @@ def main(args: argparse.Namespace) -> None:
             insert_columns=articles_df.columns.tolist(),
         )
 
-        # Upset the lists they belong to here
-        upsert_df(
+        # Delete and Insert based on ranks the lists they belong to here
+        delete_and_insert(
             df=type_df[["rank", "id", "crawled_at"]],
             table_name=my_type,
             database_connection=connection,
-            key_columns=["rank"],
+            key_column="rank",
             insert_columns=["rank", "id"],
         )
 

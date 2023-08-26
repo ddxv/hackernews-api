@@ -6,6 +6,58 @@ import uuid
 import pandas as pd
 
 
+def delete_and_insert(
+    df: pd.DataFrame,
+    table_name: str,
+    database_connection: sqlite3.Connection,
+    key_column: str,
+    insert_columns: list[str],
+    schema: str | None = None,
+) -> None:
+    """Perform DELETE & INSERT on a SQLITE table from a DataFrame.
+    Constructs an INSERT … ON CONFLICT statement, uploads the DataFrame to a
+    temporary table, and then executes the INSERT.
+    Parameters
+    ----------
+    data_frame : pandas.DataFrame
+        The DataFrame to be upserted.
+    table_name : str
+        The name of the target table.
+    engine : sqlalchemy.engine.Engine
+        The SQLAlchemy Engine to use.
+    schema : str, optional
+        The name of the schema containing the target table.
+    key_columns : list of str, optional
+        A list of the column name(s) on which to match. If omitted, the
+        primary key columns of the target table will be used.
+    """
+    table_spec = ""
+    if schema:
+        table_spec += '"' + schema.replace('"', '""') + '".'
+    table_spec += '"' + table_name.replace('"', '""') + '"'
+
+    all_columns = list(set([key_column] + insert_columns))
+
+    keys = df[key_column].tolist()
+    keys_str = ",".join([str(x) for x in keys])
+
+    where_statement = f"WHERE {key_column} IN ({keys_str})"
+
+    del_sql = f"""DELETE 
+                FROM {table_spec}
+                {where_statement} 
+                ;"""
+
+    with database_connection as conn:
+        conn.execute(del_sql)
+        df[all_columns].to_sql(
+            name=table_name,
+            con=conn,
+            if_exists="append",
+            index=False,
+        )
+
+
 def upsert_df(
     df: pd.DataFrame,
     table_name: str,
@@ -15,7 +67,7 @@ def upsert_df(
     schema: str | None = None,
 ) -> None:
     """
-    Perform an "upsert" on a PostgreSQL table from a DataFrame.
+    Perform an "upsert" on a SQLITE table from a DataFrame.
     Constructs an INSERT … ON CONFLICT statement, uploads the DataFrame to a
     temporary table, and then executes the INSERT.
     Parameters
@@ -60,6 +112,7 @@ def upsert_df(
             index=False,
         )
         conn.execute(sql_query)
+        conn.execute(f"DROP TABLE IF EXISTS {temp_table}")
 
 
 def query_article(article_id: int) -> pd.DataFrame:
