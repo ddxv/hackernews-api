@@ -27,6 +27,6 @@ class ArticleController(Controller):
         print(f"GET for {type=} and {page=}")
         if type in ["top", "new", "best"]:
             df = query_type(type=type, page_number=page, items_per_page=items_per_page)
-            df.sort_values("rank", ascending=True)
+            df = df.sort_values("rank", ascending=True)
             mydict: Articles = df.set_index("id").to_dict(orient="index")
         return mydict

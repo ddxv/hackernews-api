@@ -3,7 +3,7 @@
 This repo has two parts:
 
 1. Scrape data from HackerNews API and store to `my_app/db/data.db`
-2. Host API to support hackernews-app
+2. Host API to support [hackernews-app](<https://github.com/ddxv/hackernews-app>)
 
 ## Scraper
 
