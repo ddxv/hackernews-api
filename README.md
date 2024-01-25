@@ -133,6 +133,6 @@ Checking your local API docs:
 `http://127.0.0.1:8000/api/docs`
 
 Restarting Unit service
+
 - `sudo systemctl stop hackernews-api`
 - `sudo systemctl start hackernews-api`
-
