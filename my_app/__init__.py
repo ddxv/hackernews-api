@@ -11,6 +11,7 @@ except NameError:
     file_path = Path(filename)
 
 UMAMI_SETTINGS = {}
+print(f"trying {file_path=}")
 if file_path.exists():
     with Path.open(file_path, "rb") as file:
         UMAMI_SETTINGS = tomllib.load(file)

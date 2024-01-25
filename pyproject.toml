@@ -9,6 +9,8 @@ dependencies = [
     "pandas",
     "requests",
     "tldextract",
+    "gunicorn",
+    "uvicorn",
 ]
 
 [project.optional-dependencies]
@@ -25,7 +27,7 @@ profile = 'black'
 target-version = 'py312'
 # Enable flake8-bugbear (`B`) rules.
 #select = ["ALL"]
-select = ["E", "F", "B", "I", "N"]
+select = ["E", "F", "B", "I", "N", "UP"]
 
 # Never enforce `E501` (line length violations).
 ignore = [
