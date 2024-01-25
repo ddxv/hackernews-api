@@ -16,6 +16,7 @@ def delete_and_insert(
     """Perform DELETE & INSERT on a SQLITE table from a DataFrame.
     Constructs an INSERT … ON CONFLICT statement, uploads the DataFrame to a
     temporary table, and then executes the INSERT.
+
     Parameters
     ----------
     data_frame : pandas.DataFrame
@@ -95,7 +96,7 @@ SETUP_SQL_PATH = f"{DB_DIR}/create_db.sqlite3"
 if not os.path.exists(DATABASE_PATH):
     print("creating db with empty tables")
     # Read the SQL commands from the create.sql file
-    with open(SETUP_SQL_PATH, "r") as file:
+    with open(SETUP_SQL_PATH) as file:
         sql_commands = file.read()
     connection = sqlite3.connect(DATABASE_PATH)
     connection.executescript(sql_commands)
