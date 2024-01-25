@@ -16,6 +16,7 @@ def delete_and_insert(
     """Perform DELETE & INSERT on a SQLITE table from a DataFrame.
     Constructs an INSERT … ON CONFLICT statement, uploads the DataFrame to a
     temporary table, and then executes the INSERT.
+
     Parameters
     ----------
     data_frame : pandas.DataFrame
@@ -70,13 +71,13 @@ def query_article(article_id: int) -> pd.DataFrame:
     return df
 
 
-def query_type(type: str, page_number: int, items_per_page: int) -> pd.DataFrame:
+def query_type(list_type: str, page_number: int, items_per_page: int) -> pd.DataFrame:
     offset = (page_number - 1) * items_per_page
-    query_str = f"""SELECT {type}.RANK, articles.*
-        FROM {type}
+    query_str = f"""SELECT {list_type}.RANK, articles.*
+        FROM {list_type}
         LEFT JOIN articles
             USING (id)
-        ORDER BY {type}.rank ASC 
+        ORDER BY {list_type}.rank ASC 
         LIMIT {items_per_page} OFFSET {offset}
         ;
         """
@@ -95,7 +96,7 @@ SETUP_SQL_PATH = f"{DB_DIR}/create_db.sqlite3"
 if not os.path.exists(DATABASE_PATH):
     print("creating db with empty tables")
     # Read the SQL commands from the create.sql file
-    with open(SETUP_SQL_PATH, "r") as file:
+    with open(SETUP_SQL_PATH) as file:
         sql_commands = file.read()
     connection = sqlite3.connect(DATABASE_PATH)
     connection.executescript(sql_commands)

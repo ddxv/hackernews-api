@@ -71,7 +71,7 @@ def get_articles(my_type: str, max_count: int) -> list:
         article_info = get_article(id)
         # This is the rank of my_type, ie Rank 1 on Top Stories
         article_info["rank"] = i
-        article_info["crawled_at"] = datetime.datetime.utcnow()
+        article_info["crawled_at"] = datetime.datetime.now(datetime.UTC)
         if "kids" not in article_info.keys():
             article_info["kids"] = []
         articles.append(article_info)
@@ -93,6 +93,7 @@ def main(args: argparse.Namespace) -> None:
         type_df = articles_df[["rank", "id", "crawled_at"]].copy()
         articles_df = articles_df.drop(["kids", "rank"], axis=1)
         # Upsert the Articles which are the primary key first
+        print(f"now insert {my_type} table=articles")
         delete_and_insert(
             df=articles_df,
             table_name="articles",
@@ -100,7 +101,7 @@ def main(args: argparse.Namespace) -> None:
             key_column="id",
             insert_columns=[x for x in articles_df.columns.tolist() if x not in ["id"]],
         )
-
+        print(f"now insert {my_type} table={my_type}")
         # Delete and Insert based on ranks the lists they belong to here
         delete_and_insert(
             df=type_df[["rank", "id", "crawled_at"]],

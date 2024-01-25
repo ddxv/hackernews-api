@@ -11,6 +11,8 @@ class MyOpenAPIController(OpenAPIController):
 app = Litestar(
     route_handlers=[ArticleController],
     openapi_config=OpenAPIConfig(
-        title="HackerNews API", version="1.0.0", openapi_controller=MyOpenAPIController
+        title="HackerNews API",
+        version="1.0.0",
+        openapi_controller=MyOpenAPIController,
     ),
 )
