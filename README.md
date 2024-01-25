@@ -34,7 +34,7 @@ This API is currently used for returning lists of current Hacker News articles a
 ## Setup
 
 - Current setup is based on Python3.11
-- pip install dependencies, found in pyproject.toml: `pip install pandas requests litestar uvicorn gunicorn`
+- pip install dependencies, found in pyproject.toml: `pip install "litestar[standard]" pydantic pandas requests tldextract gunicorn uvicorn`
 
 ## Running Locally
 
