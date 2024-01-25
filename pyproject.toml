@@ -12,7 +12,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pre-commit", "bump2version"]
+dev = ["pre-commit", "bump2version", "umami-analytics"]
 
 [build-system]
 requires = ["setuptools", "wheel"]
@@ -22,10 +22,10 @@ requires = ["setuptools", "wheel"]
 profile = 'black'
 
 [tool.ruff]
-target-version = 'py311'
+target-version = 'py312'
 # Enable flake8-bugbear (`B`) rules.
-#select = ["E", "F", "B", "I", "N"]
-select = ["ALL"]
+#select = ["ALL"]
+select = ["E", "F", "B", "I", "N"]
 
 # Never enforce `E501` (line length violations).
 ignore = [

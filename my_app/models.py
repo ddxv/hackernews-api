@@ -1,8 +1,11 @@
+"""API models and types."""
 from dataclasses import dataclass
 
 
 @dataclass
 class Article:
+    """A HackerNews article."""
+
     id: int
     rank: int
     deleted: int | None  # Using Optional since it can be missing
@@ -23,4 +26,6 @@ class Article:
 
 @dataclass
 class Articles:
+    """A List of HackerNews articles."""
+
     articles: list[Article]

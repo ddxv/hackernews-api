@@ -1,3 +1,6 @@
+# Umami settings file
+umami_settings.toml
+
 *.csv
 config.yml
 *.db
