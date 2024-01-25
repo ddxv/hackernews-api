@@ -71,7 +71,7 @@ def get_articles(my_type: str, max_count: int) -> list:
         article_info = get_article(id)
         # This is the rank of my_type, ie Rank 1 on Top Stories
         article_info["rank"] = i
-        article_info["crawled_at"] = datetime.datetime.utcnow()
+        article_info["crawled_at"] = datetime.datetime.now(datetime.UTC)
         if "kids" not in article_info.keys():
             article_info["kids"] = []
         articles.append(article_info)
