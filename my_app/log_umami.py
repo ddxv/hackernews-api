@@ -14,5 +14,5 @@ def send_page_view(list_type: str) -> None:
     # Skip the need to pass the target website in subsequent calls.
     umami.set_website_id(UMAMI_SETTINGS["umami_website_id"])
     umami.set_hostname(UMAMI_SETTINGS["umami_hostname"])
-    umami.new_page_view(page_title="Umami-Test", url=f"/test/{list_type}")
+    umami.new_page_view(page_title="Umami-Log", url=f"/articles/list/{list_type}")
     print("page view sent")
