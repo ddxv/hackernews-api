@@ -56,7 +56,7 @@ def get_article(id: int) -> dict:
     if "url" not in article.keys():
         article["url"] = f"https://news.ycombinator.com/item?id={id}"
     ext = tldextract.extract(article["url"])
-    article["domain"] = ".".join(part for part in ext if part)
+    article["domain"] = ext.registered_domain
     return article
 
 
