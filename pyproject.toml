@@ -25,12 +25,26 @@ profile = 'black'
 
 [tool.ruff]
 target-version = 'py312'
-# Enable flake8-bugbear (`B`) rules.
 #select = ["ALL"]
-select = ["E", "F", "B", "I", "N", "UP"]
+lint.select = [
+    "A",   # flake8 builtins 
+    "E",   # errors 
+    "W",   # pycodestyle Warnings 
+    "F",   # PyFlake 
+    "B",   # flake8-bugbear rules 
+    "I",   # import sort 
+    "N",   # PEP8 naming rules 
+    "UP",  # pyupgrade, warnings for common mistakes for new versions
+    "PLW", # pyflake
+    "PLC", # pyflake
+    "PLE", # pyflake
+    "PD",  # pandas-vet
+    #"D", # pydocstyle, all funcs have docstring 
+]
+
 
 # Never enforce `E501` (line length violations).
-ignore = [
+lint.ignore = [
     "E501",   # line length
     "W291",   # trailing space at end of line
     "G",      # Ignore pyflake logging as it does not like f-strings in log messages.
@@ -38,10 +52,10 @@ ignore = [
     "PD901",  # Avoid using the generic variable name 'df' but I prefer for readability
 ]
 
-fixable = ["ALL"]
+lint.fixable = ["ALL"]
 
 # Avoid trying to fix flake8-bugbear (`B`) violations.
-unfixable = ["B"]
+lint.unfixable = ["B"]
 
 [tool.mypy]
 warn_return_any = true

@@ -5,7 +5,6 @@
 /articles/top : one of top, new or best
 """
 
-
 from typing import Self
 
 from litestar import Controller, Response, get
