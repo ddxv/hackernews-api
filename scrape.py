@@ -50,11 +50,11 @@ def manage_cli_args() -> argparse.Namespace:
     return args
 
 
-def get_article(id: int) -> dict:
-    response = requests.get(BASE_URL + f"item/{id}.json")
+def get_article(_id: int) -> dict:
+    response = requests.get(BASE_URL + f"item/{_id}.json")
     article: dict = response.json()
     if "url" not in article.keys():
-        article["url"] = f"https://news.ycombinator.com/item?id={id}"
+        article["url"] = f"https://news.ycombinator.com/item?id={_id}"
     ext = tldextract.extract(article["url"])
     article["domain"] = ext.registered_domain
     return article
@@ -66,9 +66,9 @@ def get_articles(my_type: str, max_count: int) -> list:
     article_ids = response.json()
     articles = list()
     i = 1
-    for id in article_ids:
+    for _id in article_ids:
         print(f"{my_type}: {i}/{len(article_ids)}")
-        article_info = get_article(id)
+        article_info = get_article(_id)
         # This is the rank of my_type, ie Rank 1 on Top Stories
         article_info["rank"] = i
         article_info["crawled_at"] = datetime.datetime.now(datetime.UTC)
