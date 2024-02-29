@@ -1,5 +1,4 @@
 """API models and types."""
-
 from dataclasses import dataclass
 
 
