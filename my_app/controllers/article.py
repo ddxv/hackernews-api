@@ -41,6 +41,7 @@ class ArticleController(Controller):
     async def get_article_list(
         self: Self,
         request: Request,
+        headers: dict[str, str],
         list_type: str,
         page: int = 1,
         items_per_page: int = 50,
@@ -66,7 +67,10 @@ class ArticleController(Controller):
             )
             df = df.sort_values("rank", ascending=True)
             mydict: Articles = df.set_index("id").to_dict(orient="index")
-        ip = request.client.host
+        if headers and 'X-Forwarded-For' in headers:
+            ip = request.client.host
+        else:
+            ip = ""
         return Response(
             mydict,
             background=BackgroundTask(
