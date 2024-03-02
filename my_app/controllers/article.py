@@ -7,7 +7,7 @@
 
 from typing import Self
 
-from litestar import Controller, Request, Response, get
+from litestar import Controller, Response, get
 from litestar.background_tasks import BackgroundTask
 
 from my_app.db.connection import query_article, query_type
@@ -40,7 +40,6 @@ class ArticleController(Controller):
     @get(path="/list/{list_type:str}")
     async def get_article_list(
         self: Self,
-        request: Request,
         headers: dict[str, str],
         list_type: str,
         page: int = 1,
