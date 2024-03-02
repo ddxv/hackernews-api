@@ -7,7 +7,7 @@
 
 from typing import Self
 
-from litestar import Controller, Response, get
+from litestar import Controller, Request, Response, get
 from litestar.background_tasks import BackgroundTask
 
 from my_app.db.connection import query_article, query_type
@@ -40,6 +40,7 @@ class ArticleController(Controller):
     @get(path="/list/{list_type:str}")
     async def get_article_list(
         self: Self,
+        request: Request,
         list_type: str,
         page: int = 1,
         items_per_page: int = 50,
@@ -65,10 +66,12 @@ class ArticleController(Controller):
             )
             df = df.sort_values("rank", ascending=True)
             mydict: Articles = df.set_index("id").to_dict(orient="index")
+        ip = request.client.host
         return Response(
             mydict,
             background=BackgroundTask(
                 send_page_view,
                 list_type,
+                ip,
             ),
         )
