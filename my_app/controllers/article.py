@@ -68,9 +68,9 @@ class ArticleController(Controller):
             df = df.sort_values("rank", ascending=True)
             mydict: Articles = df.set_index("id").to_dict(orient="index")
         if headers and 'X-Forwarded-For' in headers:
-            ip = request.client.host
+            ip = headers['X-Forwarded-For']
         else:
-            ip = ""
+            ip = None
         return Response(
             mydict,
             background=BackgroundTask(

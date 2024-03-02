@@ -3,7 +3,7 @@
 from my_app import UMAMI_SETTINGS
 
 
-def send_page_view(list_type: str, ip:str) -> None:
+def send_page_view(list_type: str, ip:str|None) -> None:
     """Send page hit to an ummami instance."""
     if not UMAMI_SETTINGS:
         print("no umami settings")
