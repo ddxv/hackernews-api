@@ -71,6 +71,8 @@ class ArticleController(Controller):
             mydict: Articles = df.set_index("id").to_dict(orient="index")
         if headers and 'X-Forwarded-For' in headers:
             ip = headers['X-Forwarded-For']
+        elif headers and 'x-forwarded-for' in headers:
+            ip = headers['x-forwarded-for']
         else:
             ip = None
         return Response(
