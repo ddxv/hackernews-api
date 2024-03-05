@@ -10,9 +10,12 @@ from typing import Self
 from litestar import Controller, Response, get
 from litestar.background_tasks import BackgroundTask
 
+from config import get_logger
 from my_app.db.connection import query_article, query_type
 from my_app.log_umami import send_page_view
 from my_app.models import Article, Articles
+
+logger = get_logger(__name__)
 
 
 class ArticleController(Controller):
@@ -32,7 +35,7 @@ class ArticleController(Controller):
         -------
             Article: A dictionary representation of the article.
         """
-        print(f"GET for {article_id=}")
+        logger.info(f"GET for {article_id=}")
         df = query_article(article_id)
         mydict: Article = df.set_index("id").to_dict(orient="index")
         return mydict
@@ -57,7 +60,7 @@ class ArticleController(Controller):
         -------
             Articles: A dictionary representation of the list of articles.
         """
-        print(f"GET for {list_type=} and {page=}")
+        logger.info(f"GET for {list_type=} and {page=}")
         if list_type in ["top", "new", "best"]:
             df = query_type(
                 list_type=list_type,
