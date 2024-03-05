@@ -1,17 +1,24 @@
-"""Try loading umami settings."""
+"""Try loading config and umami settings."""
 
 import tomllib
 from pathlib import Path
 
-filename = "umami_settings.toml"
+from config import get_logger
+
+logger = get_logger(__name__)
+
+UMAMI_FILENAME = "umami_settings.toml"
 
 try:
-    file_path = Path(__file__).parent / filename
+    file_path = Path(__file__).parent / UMAMI_FILENAME
 except NameError:
-    file_path = Path(filename)
+    file_path = Path(UMAMI_FILENAME)
 
 UMAMI_SETTINGS = {}
-print(f"trying {file_path=}")
 if file_path.exists():
+    logger.info(f"loading umami settings from {file_path=}")
     with Path.open(file_path, "rb") as file:
         UMAMI_SETTINGS = tomllib.load(file)
+else:
+    logger.info(f"unable to find umami settings from {file_path=}")
+

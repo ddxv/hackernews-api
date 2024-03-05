@@ -6,7 +6,10 @@ import pandas as pd
 import requests
 import tldextract
 
+from config import get_logger
 from my_app.db.connection import connection, delete_and_insert
+
+logger = get_logger(__name__)
 
 BASE_URL = "https://hacker-news.firebaseio.com/v0/"
 STORY_TYPES = ["top", "best", "new"]
@@ -22,7 +25,7 @@ def script_has_process() -> bool:
         x for x in processes if "/adscrawler/main.py" in x and "/bin/sh" not in x
     ]
     if len(my_processes) > 1:
-        print(f"Already running {my_processes}")
+        logger.info(f"Already running {my_processes}")
         already_running = True
     return already_running
 
@@ -45,7 +48,7 @@ def manage_cli_args() -> argparse.Namespace:
     )
     args, leftovers = parser.parse_known_args()
     if args.limit_processes and script_has_process():
-        print("Script already running, exiting")
+        logger.info("Script already running, exiting")
         quit()
     return args
 
@@ -67,7 +70,7 @@ def get_articles(my_type: str, max_count: int) -> list:
     articles = list()
     i = 1
     for _id in article_ids:
-        print(f"{my_type}: {i}/{len(article_ids)}")
+        logger.info(f"{my_type}: {i}/{len(article_ids)}")
         article_info = get_article(_id)
         # This is the rank of my_type, ie Rank 1 on Top Stories
         article_info["rank"] = i
@@ -93,7 +96,7 @@ def main(args: argparse.Namespace) -> None:
         type_df = articles_df[["rank", "id", "crawled_at"]].copy()
         articles_df = articles_df.drop(["kids", "rank"], axis=1)
         # Upsert the Articles which are the primary key first
-        print(f"now insert {my_type} table=articles")
+        logger.info(f"now insert {my_type} table=articles")
         delete_and_insert(
             df=articles_df,
             table_name="articles",
@@ -101,7 +104,7 @@ def main(args: argparse.Namespace) -> None:
             key_column="id",
             insert_columns=[x for x in articles_df.columns.tolist() if x not in ["id"]],
         )
-        print(f"now insert {my_type} table={my_type}")
+        logger.info(f"now insert {my_type} table={my_type}")
         # Delete and Insert based on ranks the lists they belong to here
         delete_and_insert(
             df=type_df[["rank", "id", "crawled_at"]],

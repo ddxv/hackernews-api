@@ -4,6 +4,10 @@ import sqlite3
 
 import pandas as pd
 
+from config import get_logger
+
+logger = get_logger(__name__)
+
 
 def delete_and_insert(
     df: pd.DataFrame,
@@ -94,7 +98,7 @@ SETUP_SQL_PATH = f"{DB_DIR}/create_db.sqlite3"
 
 
 if not os.path.exists(DATABASE_PATH):
-    print("creating db with empty tables")
+    logger.info("creating db with empty tables")
     # Read the SQL commands from the create.sql file
     with open(SETUP_SQL_PATH) as file:
         sql_commands = file.read()
