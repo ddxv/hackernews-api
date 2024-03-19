@@ -102,7 +102,7 @@ def main(args: argparse.Namespace) -> None:
             table_name="articles",
             database_connection=connection,
             key_column="id",
-            insert_columns=[x for x in articles_df.columns.tolist() if x not in ["id"]],
+            insert_columns=[x for x in articles_df.columns.tolist() if x not in ["id", "parts"]],
         )
         logger.info(f"now insert {my_type} table={my_type}")
         # Delete and Insert based on ranks the lists they belong to here
